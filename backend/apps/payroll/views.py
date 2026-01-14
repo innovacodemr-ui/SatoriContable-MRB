@@ -11,7 +11,7 @@ from .serializers import (
 )
 from .services import PayrollCalculator
 from .pdf_service import PayrollPDFService
-from apps.dian.services import ElectronicPayrollBuilder
+# from apps.dian.services import ElectronicPayrollBuilder  # TODO: Implementar esta clase
 from apps.tenants.models import Client
 from apps.common.utils import SecurityService
 from django.conf import settings
@@ -197,10 +197,10 @@ class PayrollDocumentViewSet(viewsets.ModelViewSet):
                  return Response({"error": "Certificado digital no encontrado (ni en DB ni local)."}, status=500)
             
         try:
-            builder = ElectronicPayrollBuilder()
-            
-            # Proceso Completo (Pasamos company explícitamente)
-            result = builder.transmit_document(document, cert_data, cert_password, company)
+            # TODO: Implementar ElectronicPayrollBuilder
+            return Response({"error": "Transmisión electrónica de nómina aún no implementada. Documento generado localmente."}, status=501)
+            # builder = ElectronicPayrollBuilder()
+            # result = builder.transmit_document(document, cert_data, cert_password, company)
             
             # Guardar XML Firmado (Simulado guardado en archivo o DB)
             # En producción, guardar result['signed_xml'] en document.xml_file
