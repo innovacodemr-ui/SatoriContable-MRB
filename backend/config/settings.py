@@ -104,11 +104,12 @@ AUTHENTICATION_BACKENDS = [
 # Social Account Settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        'APP': {
-            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
-            'secret': os.getenv('GOOGLE_SECRET'),
-            'key': ''
-        },
+        # Usar SocialApp de la base de datos en lugar de configuración estática
+        # 'APP': {
+        #     'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+        #     'secret': os.getenv('GOOGLE_SECRET'),
+        #     'key': ''
+        # },
         'SCOPE': [
             'profile',
             'email',
