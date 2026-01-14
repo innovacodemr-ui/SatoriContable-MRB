@@ -1,0 +1,49 @@
+# Usar imagen base ligera de Python
+FROM python:3.10-slim
+
+# Metadatos del comando
+LABEL maintainer="Satori Team"
+
+# Evitar archivos .pyc y buffering
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Directorio de trabajo
+WORKDIR /app
+
+# Instalar dependencias del sistema (Incluyendo cliente Postgres y herramientas de compilación)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    libcairo2-dev \
+    pkg-config \
+    netcat-openbsd \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar Gunicorn explícitamente (si no está en requirements)
+RUN pip install gunicorn
+
+# Instalar dependencias de Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar el código del proyecto
+COPY . .
+
+# Crear directorios para estáticos y media con permisos correctos
+RUN mkdir -p /app/staticfiles /app/media
+
+# Copiar y configurar Entrypoint
+COPY ./entrypoint.sh .
+RUN sed -i 's/\r$//g' /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# Exponer el puerto interno (Gunicorn)
+EXPOSE 8000
+
+# Definir Entrypoint
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+# Comando de arranque por defecto
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "config.wsgi:application"]

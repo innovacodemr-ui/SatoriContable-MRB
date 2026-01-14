@@ -1,0 +1,29 @@
+PASOS PARA IMPLEMENTAR DOCUMENTO SOPORTE
+
+1. SOLICITAR RESOLUCIÓN DIAN
+   Igual que con la facturación normal, debes entrar al portal MUISCA de la DIAN y solicitar una nueva resolución de numeración.
+   - Tipo: "Documento Soporte en adquisiciones efectuadas a no obligados a facturar".
+   - PREFIJO: Recomendado usar algo como "DS" o "DSO".
+   - RANGO: Ej. del 1 al 1000.
+
+2. CONFIGURAR EN SATORI
+   Una vez tengas la resolución (PDF 1876...), entra al administrador de Satori:
+   - Ve a: http://178.156.215.106:8000/admin/invoicing/resolution/
+   - Clic en "ADD RESOLUTION".
+   - Nombre: "Resolución Documento Soporte 2026".
+   - Tipo Documento: Selecciona "Documento Soporte en Adquisiciones".
+   - Prefijo, Número, Rangos y Fechas: Copia exactamente lo que dice el PDF de la DIAN.
+
+3. REGISTRAR PROVEEDORES
+   Asegúrate de que los proveedores (cuentas de cobro) estén creados en "Terceros" (Accounting -> ThirdParties).
+   - Deben tener RUT, Dirección y Correo electrónico válidos.
+
+4. CREAR EL DOCUMENTO
+   Por ahora, el registro se hace desde el panel administrativo:
+   - Ve a: http://178.156.215.106:8000/admin/invoicing/supportdocument/add/
+   - Selecciona el Proveedor y la Resolución.
+   - Agrega los items (Servicios, Honorarios, etc.) en la parte inferior.
+   - Guardar.
+
+NOTA TÉCNICA:
+El sistema ya tiene la base de datos lista. Cuando tengas el Certificado Digital el martes, instalaremos la última pieza: el "Generador de XML", que tomará estos datos guardados y los enviará a la DIAN.

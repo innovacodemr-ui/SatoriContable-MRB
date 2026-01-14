@@ -1,0 +1,86 @@
+═══════════════════════════════════════════════════════════════════
+  SATORI - SISTEMA CONTABLE - INSTRUCCIONES DE USO
+═══════════════════════════════════════════════════════════════════
+
+📌 CÓMO ABRIR LA APLICACIÓN DE ESCRITORIO:
+
+OPCIÓN 1 (MÁS FÁCIL):
+─────────────────────
+  Haz doble clic en el archivo:
+  
+  📄 ABRIR_SATORI.bat 
+  
+  (ubicado en la carpeta principal "Satori - MRB")
+
+
+OPCIÓN 2 (Manual):
+──────────────────
+  1. Abre una terminal PowerShell o CMD
+  2. Navega a la carpeta: cd "C:\Users\USUARIO\Desktop\Satori - MRB\desktop"
+  3. Ejecuta: npm start
+
+
+═══════════════════════════════════════════════════════════════════
+  ⚡ CONFIGURACIÓN INICIAL - PRIMERA VEZ
+═══════════════════════════════════════════════════════════════════
+
+Cuando abras la aplicación por PRIMERA VEZ:
+
+  1. En el Dashboard, haz clic en el botón verde:
+     "⚡ Configuración Inicial"
+  
+  2. En la página de configuración, haz clic en:
+     "Cargar Todo Ahora"
+  
+  3. Espera a que se carguen los datos (30-60 segundos)
+  
+  4. La aplicación se recargará automáticamente
+
+
+Esto cargará:
+  ✓ 200+ cuentas del Plan Único de Cuentas
+  ✓ 8 terceros (proveedores y clientes)
+  ✓ 3 comprobantes contables
+  ✓ 2 facturas electrónicas
+
+
+═══════════════════════════════════════════════════════════════════
+  📊 MÓDULOS DISPONIBLES
+═══════════════════════════════════════════════════════════════════
+
+En el menú lateral encontrarás:
+
+  📂 Contabilidad
+     • Plan de Cuentas
+     • Terceros
+     • Comprobantes Contables
+     • Documentos Electrónicos
+     • Cuentas por Cobrar
+     • Cuentas por Pagar
+
+
+═══════════════════════════════════════════════════════════════════
+  ℹ️ INFORMACIÓN TÉCNICA
+═══════════════════════════════════════════════════════════════════
+
+Base de datos: SQLite (local en tu computador)
+Ubicación DB:  C:\Users\USUARIO\AppData\Roaming\satori-desktop\satori.db
+
+Tecnologías:
+  • Frontend: React + TypeScript + Material-UI
+  • Backend:  Electron + SQLite
+  • Puerto:   La aplicación Electron usa su propio navegador
+
+
+═══════════════════════════════════════════════════════════════════
+  ❓ SOPORTE
+═══════════════════════════════════════════════════════════════════
+
+Si tienes problemas:
+  1. Cierra completamente la aplicación
+  2. Vuelve a abrir con ABRIR_SATORI.bat
+  3. Si el problema persiste, elimina la carpeta:
+     C:\Users\USUARIO\AppData\Roaming\satori-desktop
+     y vuelve a ejecutar la configuración inicial
+
+═══════════════════════════════════════════════════════════════════

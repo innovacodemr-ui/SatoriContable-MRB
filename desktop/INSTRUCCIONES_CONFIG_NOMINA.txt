@@ -1,0 +1,23 @@
+GUÍA DE CONFIGURACIÓN - SATORI NOMINA
+
+1. CONFIGURACIÓN DE EMPRESA Y DIAN
+   Ubicación: Menú Lateral -> "Configuración"
+   Qué se configura aquí:
+   - Datos básicos (NIT, Razón Social, Dirección)
+   - Datos de Facturación Electrónica y Nómina Electrónica (Software ID, Test Set ID)
+   - Certificado Digital (.p12) y contraseña
+
+   NOTA: Estos datos ya han sido precargados automáticamente en el servidor para permitir la transmisión de prueba.
+
+2. CONFIGURACIÓN DE CONCEPTOS DE NÓMINA
+   Ubicación: Interna (Base de Datos)
+   Qué incluye:
+   - Conceptos como Básico, Transporte, Horas Extras (HED, HEN, etc.), Salud, Pensión.
+   - Factores y porcentajes (Ej: HED = 1.25%).
+   
+   Estado Actual (MVP): Los conceptos están pre-configurados según la norma de ley colombiana. No hay una pantalla para "Crear nuevo concepto" en esta versión, pero el sistema ya reconoce automáticamente los códigos estándar.
+
+3. TRANSMISIÓN A LA DIAN
+   Ubicación: Nómina -> Centro de Nómina -> Ver Documento -> Botón "Transmitir a DIAN".
+   
+   Estado: El error "Innternal Server Error" se debía a que faltaba la configuración del punto 1. Esto ya fue corregido. Puede intentar transmitir nuevamente.

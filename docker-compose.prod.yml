@@ -1,0 +1,141 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=satori_db
+      - POSTGRES_USER=satori_user
+      - POSTGRES_PASSWORD=satori_pass
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U satori_user -d satori_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    command: gunicorn --bind 0.0.0.0:8000 --workers 3 config.wsgi:application
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    expose:
+      - 8000
+    environment:
+      - DEBUG=0
+      - SECRET_KEY=change_me_in_production_f7a8b9c0
+      - ALLOWED_HOSTS=localhost,127.0.0.1,178.156.215.106,satori.mrb.com.co,innovacode-mrb.com
+      - CSRF_TRUSTED_ORIGINS=https://innovacode-mrb.com
+      - CORS_ALLOWED_ORIGINS=https://innovacode-mrb.com
+      - DATABASE=postgres
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=satori_db
+      - DB_USER=satori_user
+      - DB_PASSWORD=satori_pass
+      - DB_HOST=db
+      - DB_PORT=5432
+      # Configuración de Correo (Recepción de Facturas/Eventos)
+      - RECEPTION_EMAIL_HOST=imap.gmail.com
+      - RECEPTION_EMAIL_PORT=993
+      - RECEPTION_EMAIL_USER=gerenciaonce1@gmail.com
+      - RECEPTION_EMAIL_PASSWORD=exrqepxodwyrgjnl
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      # Celery / Redis Configuration
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+  # Redis Broker
+  redis:
+    image: redis:7-alpine
+    container_name: satori_redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+  # Celery Worker
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    command: celery -A config worker -l info
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    environment:
+      - DEBUG=0
+      - SECRET_KEY=change_me_in_production_f7a8b9c0
+      - DATABASE=postgres
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=satori_db
+      - DB_USER=satori_user
+      - DB_PASSWORD=satori_pass
+      - DB_HOST=db
+      - DB_PORT=5432
+      - RECEPTION_EMAIL_HOST=imap.gmail.com
+      - RECEPTION_EMAIL_PORT=993
+      - RECEPTION_EMAIL_USER=gerenciaonce1@gmail.com
+      - RECEPTION_EMAIL_PASSWORD=exrqepxodwyrgjnl
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+  # Celery Beat
+  celery_beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    command: celery -A config beat -l info
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    environment:
+      - DEBUG=0
+      - SECRET_KEY=change_me_in_production_f7a8b9c0
+      - DATABASE=postgres
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=satori_db
+      - DB_USER=satori_user
+      - DB_PASSWORD=satori_pass
+      - DB_HOST=db
+      - DB_PORT=5432
+      - RECEPTION_EMAIL_HOST=imap.gmail.com
+      - RECEPTION_EMAIL_PORT=993
+      - RECEPTION_EMAIL_USER=gerenciaonce1@gmail.com
+      - RECEPTION_EMAIL_PASSWORD=exrqepxodwyrgjnl
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+      - backend
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

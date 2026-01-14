@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page {
+            size: letter;
+            margin: 20mm;
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                bottom: 10mm;
+                height: 10mm;
+                margin-right: 20mm;
+                margin-left: 20mm;
+            }
+        }
+        body {
+            font-family: Helvetica, sans-serif;
+            font-size: 10pt;
+            color: #333;
+        }
+        .header {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+        }
+        .company-name {
+            font-size: 16pt;
+            font-weight: bold;
+            color: #0056b3;
+            text-transform: uppercase;
+        }
+        .doc-title {
+            font-size: 14pt;
+            font-weight: bold;
+            text-align: right;
+            margin-top: -25px;
+        }
+        .info-grid {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #666;
+            font-size: 8pt;
+        }
+        .info-value {
+            font-size: 10pt;
+        }
+        
+        /* Tables */
+        .concepts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .concepts-table th {
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+            padding: 5px;
+            font-size: 9pt;
+            text-align: left;
+        }
+        .concepts-table td {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+            font-size: 9pt;
+        }
+        .amount {
+            text-align: right;
+        }
+        .total-row td {
+            font-weight: bold;
+            border-top: 1px solid #333;
+            background-color: #f9f9f9;
+        }
+        
+        .net-pay-box {
+            border: 2px solid #0056b3;
+            background-color: #e6f3ff;
+            padding: 10px;
+            text-align: right;
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .footer {
+            font-size: 8pt;
+            text-align: center;
+            color: #888;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        
+        .col-left { width: 50%; padding-right: 10px; vertical-align: top; }
+        .col-right { width: 50%; padding-left: 10px; vertical-align: top; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <table width="100%" style="border: none; margin-bottom: 0;">
+            <tr>
+                <td width="20%" valign="top">
+                    {% if company.logo %}
+                        <img src="{{ company.logo.path }}" style="width: 100px; height: auto;" />
+                    {% endif %}
+                </td>
+                <td width="60%" valign="top">
+                    <div class="company-name">{{ company.name }}</div>
+                    <div style="font-size: 9pt;">NIT: {{ company.nit }}</div>
+                </td>
+                <td width="20%" valign="top">
+                     <div class="doc-title">COMPROBANTE DE PAGO</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Employee Info -->
+    <table class="info-grid">
+        <tr>
+            <td width="50%">
+                <div class="info-label">EMPLEADO</div>
+                <div class="info-value">{{ document.employee.third_party.first_name }} {{ document.employee.third_party.surname }}</div>
+                <div class="info-label">IDENTIFICACIÓN</div>
+                <div class="info-value">{{ document.employee.third_party.identification_number }}</div>
+            </td>
+            <td width="25%">
+                <div class="info-label">PERIODO</div>
+                <div class="info-value">{{ document.period.name }}</div>
+                <div class="info-label">CARGO</div>
+                <div class="info-value">{{ document.employee.position }}</div>
+            </td>
+            <td width="25%">
+                <div class="info-label">FECHA PAGO</div>
+                <div class="info-value">{{ document.period.payment_date }}</div>
+                <div class="info-label">CONTRATO</div>
+                <div class="info-value">{{ document.employee.contract_type }}</div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Concepts Grid -->
+    <table width="100%">
+        <tr>
+            <td class="col-left">
+                <table class="concepts-table">
+                    <thead>
+                        <tr>
+                            <th>DEVENGADOS</th>
+                            <th width="15%">Días</th>
+                            <th width="30%" align="right">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detail in items %}
+                            {% if detail.concept_type == 'EARNING' %}
+                            <tr>
+                                <td>{{ detail.description }}</td>
+                                <td>{{ detail.quantity|floatformat:0 }}</td>
+                                <td class="amount">{{ detail.value|floatformat:0 }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr class="total-row">
+                            <td colspan="2">TOTAL DEVENGADO</td>
+                            <td class="amount">{{ document.accrued_total|floatformat:0 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td class="col-right">
+                <table class="concepts-table">
+                    <thead>
+                        <tr>
+                            <th>DEDUCCIONES</th>
+                            <th width="30%" align="right">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detail in items %}
+                            {% if detail.concept_type == 'DEDUCTION' %}
+                            <tr>
+                                <td>{{ detail.description }}</td>
+                                <td class="amount">{{ detail.value|floatformat:0 }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr class="total-row">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td class="amount">{{ document.deductions_total|floatformat:0 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Net Pay -->
+    <div class="net-pay-box">
+        NETO A PAGAR: $ {{ document.net_total|floatformat:0 }}
+    </div>
+
+    <!-- Signatures -->
+    <table width="100%" style="margin-top: 50px;">
+        <tr>
+            <td width="50%" align="center">
+                <div style="border-top: 1px solid #333; width: 60%;">
+                    Firma Empleador
+                </div>
+            </td>
+            <td width="50%" align="center">
+                <div style="border-top: 1px solid #333; width: 60%;">
+                    Recibí Conforme (CC: {{ document.employee.third_party.identification_number }})
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Footer -->
+    <div id="footer_content" class="footer">
+        Generado por Satori Contable • Software de Nómina Electrónica
+    </div>
+</body>
+</html>

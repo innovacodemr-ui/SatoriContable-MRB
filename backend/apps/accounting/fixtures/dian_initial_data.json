@@ -1,0 +1,62 @@
+[
+  {
+    "model": "accounting.dianformat",
+    "pk": 1,
+    "fields": {
+      "code": "1001",
+      "name": "Pagos o abonos en cuenta y retenciones practicadas",
+      "version": 10,
+      "valid_from": 2025
+    }
+  },
+  {
+    "model": "accounting.dianconcept",
+    "pk": 1,
+    "fields": {
+      "format": 1,
+      "code": "5001",
+      "name": "Salarios y demás pagos laborales",
+      "description": "Pagos por salarios, prestaciones sociales, viáticos, gastos de representación, etc."
+    }
+  },
+  {
+    "model": "accounting.dianconcept",
+    "pk": 2,
+    "fields": {
+      "format": 1,
+      "code": "5002",
+      "name": "Honorarios",
+      "description": "Pagos por honorarios a personas jurídicas o naturales."
+    }
+  },
+  {
+    "model": "accounting.dianconcept",
+    "pk": 3,
+    "fields": {
+      "format": 1,
+      "code": "5003",
+      "name": "Comisiones",
+      "description": "Pagos por comisiones."
+    }
+  },
+  {
+    "model": "accounting.dianconcept",
+    "pk": 4,
+    "fields": {
+      "format": 1,
+      "code": "5004",
+      "name": "Servicios",
+      "description": "Pagos por servicios en general."
+    }
+  },
+  {
+    "model": "accounting.dianconcept",
+    "pk": 5,
+    "fields": {
+      "format": 1,
+      "code": "5005",
+      "name": "Arrendamientos",
+      "description": "Pagos por arrendamientos de bienes muebles e inmuebles."
+    }
+  }
+]

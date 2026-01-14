@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block head_title %}Satori - Authenticator{% endblock %}</title>
+    <!-- Tailwind CSS (Elite Dark Mode) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                        },
+                        dark: {
+                            800: '#1f2937',
+                            900: '#111827',
+                            950: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #030712; /* Dark-950 */
+            color: #e5e7eb;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-black p-4">
+
+    <div class="w-full max-w-md bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl overflow-hidden p-8 animate-fade-in-up">
+        
+        <!-- Header / Logo -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-violet-500">
+                SATORI
+            </h1>
+            <p class="text-gray-400 text-sm mt-2 font-light">Software Contable Inteligente</p>
+        </div>
+
+        <!-- Content Block -->
+        {% block content %}
+        {% endblock %}
+        
+        <!-- Footer -->
+        <div class="mt-8 text-center text-xs text-gray-600 border-t border-gray-700/50 pt-4">
+            &copy; 2026 Innovacode MRB. Secure Enclave.
+        </div>
+    </div>
+
+</body>
+</html>

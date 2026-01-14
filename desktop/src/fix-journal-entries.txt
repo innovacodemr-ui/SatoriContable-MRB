@@ -1,0 +1,20 @@
+// Helper function para obtener IDs de cuentas
+const getAccountId = (code) => {
+  const account = this.db.query('SELECT id FROM accounts WHERE code = ? LIMIT 1', [code]);
+  return account.length > 0 ? account[0].id : null;
+};
+
+// Y reemplazar todos los INSERT con subqueries por variables:
+[apertura.lastInsertRowid, getAccountId('110505'), 'Saldo inicial Caja General', 5000000, 0]
+[apertura.lastInsertRowid, getAccountId('111005'), 'Saldo inicial Banco Nacional', 50000000, 0]
+[apertura.lastInsertRowid, getAccountId('310505'), 'Capital inicial', 0, 55000000]
+
+// Para el comprobante de compra:
+[compra.lastInsertRowid, getAccountId('143505'), 'Compra mercancía', 10000000, 0]
+[compra.lastInsertRowid, getAccountId('240805'), 'IVA compras 19%', 1900000, 0]
+[compra.lastInsertRowid, getAccountId('220505'), 'Proveedores', 0, 11900000]
+
+// Para gastos operacionales:
+[gastos.lastInsertRowid, getAccountId('513505'), 'Arriendo local', 2000000, 0]
+[gastos.lastInsertRowid, getAccountId('512005'), 'Servicios públicos', 500000, 0]
+[gastos.lastInsertRowid, getAccountId('111005'), 'Banco', 0, 2500000]

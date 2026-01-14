@@ -1,0 +1,33 @@
+# Docker defaults
+.git
+.gitignore
+.dockerignore
+.env.local
+.env
+Dockerfile
+Dockerfile.prod
+docker-compose.yml
+docker-compose.prod.yml
+
+# Backend specific
+backend/__pycache__
+backend/logs
+backend/media
+backend/staticfiles
+backend/db.sqlite3
+backend/.venv
+backend/venv
+**/*.pyc
+**/*.pyo
+**/__pycache__
+
+# Frontend specific
+frontend/node_modules
+frontend/dist
+frontend/build
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*

@@ -1,0 +1,34 @@
+{% extends "account/base_auth.html" %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Iniciar Sesión" %}{% endblock %}
+
+{% block content %}
+
+<div class="space-y-6">
+    <h2 class="text-xl font-semibold text-center text-white">Bienvenido de nuevo</h2>
+
+</div>
+
+<!-- Separator -->
+<div class="relative flex py-2 items-center">
+    <div class="flex-grow border-t border-gray-700"></div>
+    <span class="flex-shrink mx-4 text-gray-500 text-xs">O</span>
+    <div class="flex-grow border-t border-gray-700"></div>
+</div>
+
+<div class="text-center">
+    <a href="{% url 'account_signup' %}" class="text-sm font-medium text-blue-400 hover:text-blue-300 hover:underline">
+        ¿No tienes una cuenta? Regístrate aquí
+    </a>
+</div>
+
+<p class="text-center text-xs text-gray-500 mt-4">
+    El acceso requiere autenticación.
+    <br>Si eres nuevo, puedes registrarte manualmente o con Google.
+</p>
+
+</div>
+
+{% endblock %}
